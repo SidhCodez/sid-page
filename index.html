@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SidhCodez · Link in Bio</title>
+    <link rel="stylesheet" href="index.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap"
+        rel="stylesheet" />
+    <script src="index.js"></script>
+</head>
+
+<body>
+
+    <!-- Decorative grain overlay -->
+    <div class="grain"></div>
+
+    <!-- Floating blobs -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+
+    <main class="container">
+
+        <!-- ── HEADER ── -->
+        <header class="profile" id="profile">
+            <div class="avatar-ring">
+                <div class="avatar" id="avatarEl">
+                    <!-- Initials fallback rendered by JS -->
+                </div>
+            </div>
+
+            <h1 class="name" id="profileName"></h1>
+            <p class="tagline" id="profileTagline"></p>
+
+            <div class="social-strip" id="socialStrip"></div>
+        </header>
+
+        <!-- ── LINKS ── -->
+        <section class="links-section" id="linksSection" aria-label="Links"></section>
+
+        <!-- ── ADD LINK PANEL (hidden by default) ── -->
+        <div class="panel-toggle-wrap">
+            <button class="panel-toggle" id="panelToggleBtn" aria-expanded="false" title="Manage links">
+                <span class="toggle-icon">⚙</span>
+                <span class="toggle-label">Manage Links</span>
+            </button>
+        </div>
+
+        <div class="add-panel" id="addPanel" hidden>
+            <h2 class="panel-title">Link Manager</h2>
+
+            <div class="form-grid">
+                <label class="form-label">
+                    Title
+                    <input class="form-input" id="newTitle" type="text" placeholder="e.g. GitHub" />
+                </label>
+                <label class="form-label">
+                    URL
+                    <input class="form-input" id="newUrl" type="url" placeholder="https://" />
+                </label>
+                <label class="form-label">
+                    Emoji / Icon
+                    <input class="form-input" id="newIcon" type="text" placeholder="e.g. 🚀" maxlength="4" />
+                </label>
+                <label class="form-label">
+                    Description (optional)
+                    <input class="form-input" id="newDesc" type="text" placeholder="Short description" />
+                </label>
+            </div>
+
+            <button class="btn-add" id="addLinkBtn">+ Add Link</button>
+
+            <ul class="manage-list" id="manageList"></ul>
+        </div>
+
+        <!-- ── FOOTER ── -->
+        <footer class="footer">
+            <span id="footerYear"></span> · Made with <span class="heart">♥</span> by SidhCodez
+        </footer>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
