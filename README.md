@@ -351,10 +351,4 @@ Upload the three files (`index.html`, `style.css`, `script.js`) to any web serve
 
 MIT License — free to use, modify, and deploy for personal or commercial projects. Attribution appreciated but not required.
 
----
-
-## 👤 Author
-
-**Siddiq** · [SidhCodez](https://github.com/yourusername)
-
 > Built from scratch — no templates, no page builders, just code.
