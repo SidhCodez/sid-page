@@ -1,91 +1,1081 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SidhCodez · Link in Bio</title>
-    <link rel="stylesheet" href="index.css" />
+    <title>SidhCodez · Links</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap"
         rel="stylesheet" />
-    <script src="index.js"></script>
+    <style>
+        /* ===================== TOKENS ===================== */
+        :root {
+            --red: #e63946;
+            --red-dark: #c1121f;
+            --blue: #4361ee;
+            --blue-light: #4cc9f0;
+            --ease: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --font: 'Space Grotesk', sans-serif;
+            --font-head: 'Syne', sans-serif;
+            --rad-btn: 14px;
+            --rad-card: 18px;
+            --rad-panel: 22px;
+        }
+
+        /* ===================== DARK ===================== */
+        [data-theme="dark"] {
+            --bg: #0c0c10;
+            --bg2: #13131a;
+            --bg3: #1a1a24;
+            --surface: #17171f;
+            --card: rgba(255, 255, 255, 0.04);
+            --card-hover: rgba(255, 255, 255, 0.08);
+            --border: rgba(255, 255, 255, 0.08);
+            --border2: rgba(255, 255, 255, 0.14);
+            --text: #f0f0f8;
+            --text2: #8888a8;
+            --text3: #4a4a68;
+            --input-bg: #0e0e16;
+            --glow-r: rgba(230, 57, 70, 0.22);
+            --glow-b: rgba(67, 97, 238, 0.22);
+            --topbar-bg: rgba(12, 12, 16, 0.75);
+        }
+
+        /* ===================== LIGHT ===================== */
+        [data-theme="light"] {
+            --bg: #f4f4fb;
+            --bg2: #eaeaf5;
+            --bg3: #e0e0ef;
+            --surface: #ffffff;
+            --card: #ffffff;
+            --card-hover: #f5f5ff;
+            --border: rgba(0, 0, 0, 0.08);
+            --border2: rgba(0, 0, 0, 0.14);
+            --text: #111120;
+            --text2: #555570;
+            --text3: #9999b5;
+            --input-bg: #ededf8;
+            --glow-r: rgba(230, 57, 70, 0.12);
+            --glow-b: rgba(67, 97, 238, 0.12);
+            --topbar-bg: rgba(244, 244, 251, 0.85);
+        }
+
+        /* ===================== RESET ===================== */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background .35s ease, color .35s ease;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit
+        }
+
+        button {
+            font-family: var(--font);
+            cursor: pointer;
+            border: none;
+            background: none
+        }
+
+        input {
+            font-family: var(--font)
+        }
+
+        /* ===================== BACKGROUND ===================== */
+        .bg-layer {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .bg-layer::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 65% 55% at 5% 5%, rgba(230, 57, 70, .18) 0%, transparent 65%),
+                radial-gradient(ellipse 60% 50% at 95% 90%, rgba(67, 97, 238, .18) 0%, transparent 65%),
+                radial-gradient(ellipse 45% 40% at 55% 45%, rgba(76, 201, 240, .06) 0%, transparent 60%);
+            transition: opacity .35s;
+        }
+
+        [data-theme="light"] .bg-layer::before {
+            background:
+                radial-gradient(ellipse 65% 55% at 5% 5%, rgba(230, 57, 70, .10) 0%, transparent 65%),
+                radial-gradient(ellipse 60% 50% at 95% 90%, rgba(67, 97, 238, .10) 0%, transparent 65%);
+        }
+
+        /* animated blobs */
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(90px);
+            pointer-events: none;
+            opacity: .45
+        }
+
+        .b1 {
+            width: 420px;
+            height: 420px;
+            background: rgba(230, 57, 70, .25);
+            top: -140px;
+            left: -100px;
+            animation: fl1 18s ease-in-out infinite
+        }
+
+        .b2 {
+            width: 380px;
+            height: 380px;
+            background: rgba(67, 97, 238, .22);
+            bottom: -100px;
+            right: -80px;
+            animation: fl2 22s ease-in-out infinite
+        }
+
+        .b3 {
+            width: 260px;
+            height: 260px;
+            background: rgba(76, 201, 240, .15);
+            top: 45%;
+            left: 55%;
+            animation: fl3 26s ease-in-out infinite
+        }
+
+        @keyframes fl1 {
+
+            0%,
+            100% {
+                transform: translate(0, 0)
+            }
+
+            50% {
+                transform: translate(50px, 35px)
+            }
+        }
+
+        @keyframes fl2 {
+
+            0%,
+            100% {
+                transform: translate(0, 0)
+            }
+
+            50% {
+                transform: translate(-40px, -45px)
+            }
+        }
+
+        @keyframes fl3 {
+
+            0%,
+            100% {
+                transform: translate(0, 0)
+            }
+
+            50% {
+                transform: translate(25px, -30px)
+            }
+        }
+
+        /* ===================== TOPBAR ===================== */
+        .topbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 200;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: var(--topbar-bg);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--border);
+            transition: background .35s;
+        }
+
+        .tb-brand {
+            font-family: var(--font-head);
+            font-size: .95rem;
+            font-weight: 800;
+            background: linear-gradient(100deg, var(--red), var(--blue), var(--blue-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tb-actions {
+            display: flex;
+            gap: 8px
+        }
+
+        .icon-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: var(--card);
+            color: var(--text2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            transition: all .2s ease;
+        }
+
+        .icon-btn:hover {
+            background: var(--card-hover);
+            color: var(--text);
+            transform: scale(1.07)
+        }
+
+        /* ===================== PAGE ===================== */
+        .page {
+            position: relative;
+            z-index: 1;
+            max-width: 520px;
+            margin: 0 auto;
+            padding: 72px 20px 90px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* ===================== PROFILE ===================== */
+        .profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 40px;
+            animation: fadeUp .65s ease both .1s;
+        }
+
+        .av-wrap {
+            position: relative;
+            width: 104px;
+            height: 104px
+        }
+
+        .av-ring {
+            position: absolute;
+            inset: -3px;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, var(--red), var(--blue), var(--blue-light), var(--red));
+            animation: spin 7s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        .av {
+            position: absolute;
+            inset: 3px;
+            border-radius: 50%;
+            z-index: 1;
+            background: var(--bg3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .av img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%
+        }
+
+        .av-ini {
+            font-family: var(--font-head);
+            font-size: 1.9rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--red), var(--blue-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .p-name {
+            font-family: var(--font-head);
+            font-size: clamp(1.9rem, 6vw, 2.6rem);
+            font-weight: 800;
+            letter-spacing: -.5px;
+            text-align: center;
+            line-height: 1.1;
+        }
+
+        .p-tag {
+            font-size: .82rem;
+            font-weight: 400;
+            color: var(--text2);
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .p-div {
+            width: 64px;
+            height: 2.5px;
+            border-radius: 4px;
+            margin-top: 2px;
+            background: linear-gradient(90deg, var(--red), var(--blue), var(--blue-light));
+        }
+
+        /* ===================== LINKS ===================== */
+        .links {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 11px
+        }
+
+        .link-card {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            width: 100%;
+            padding: 15px 18px;
+            border-radius: var(--rad-card);
+            background: var(--card);
+            border: 1px solid var(--border);
+            color: var(--text);
+            position: relative;
+            overflow: hidden;
+            transition: transform .28s var(--ease), background .25s, border-color .25s, box-shadow .28s;
+            opacity: 0;
+        }
+
+        .link-card.in {
+            animation: fadeUp .5s var(--ease) forwards
+        }
+
+        .link-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg, transparent 25%, rgba(255, 255, 255, .05) 50%, transparent 75%);
+            transform: translateX(-100%);
+            transition: transform .55s ease;
+        }
+
+        .link-card:hover::after {
+            transform: translateX(100%)
+        }
+
+        .link-card:hover {
+            transform: translateY(-4px) scale(1.015);
+            background: var(--card-hover);
+            border-color: rgba(230, 57, 70, .35);
+            box-shadow: 0 10px 38px var(--glow-r), 0 4px 18px var(--glow-b);
+        }
+
+        .lk-icon {
+            width: 44px;
+            height: 44px;
+            flex-shrink: 0;
+            border-radius: 13px;
+            background: linear-gradient(135deg, rgba(230, 57, 70, .18), rgba(67, 97, 238, .18));
+            border: 1px solid var(--border2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            transition: transform .3s var(--ease);
+        }
+
+        .link-card:hover .lk-icon {
+            transform: scale(1.1) rotate(-6deg)
+        }
+
+        .lk-txt {
+            flex: 1;
+            min-width: 0
+        }
+
+        .lk-title {
+            font-size: .95rem;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+
+        .lk-desc {
+            font-size: .75rem;
+            color: var(--text2);
+            margin-top: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+
+        .lk-arr {
+            color: var(--text3);
+            font-size: .9rem;
+            flex-shrink: 0;
+            transition: transform .25s, color .25s
+        }
+
+        .link-card:hover .lk-arr {
+            color: var(--red);
+            transform: translateX(5px)
+        }
+
+        /* ===================== SEPARATOR ===================== */
+        .sep {
+            width: 100%;
+            height: 1px;
+            margin: 28px 0;
+            background: linear-gradient(90deg, transparent, var(--red), var(--blue-light), transparent);
+            opacity: .35;
+        }
+
+        /* ===================== MANAGE BTN ===================== */
+        .manage-row {
+            display: flex;
+            justify-content: center
+        }
+
+        .pill-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 9px 22px;
+            border-radius: 99px;
+            border: 1px solid var(--border2);
+            background: var(--card);
+            color: var(--text2);
+            font-size: .82rem;
+            font-weight: 500;
+            letter-spacing: .03em;
+            transition: all .22s ease;
+        }
+
+        .pill-btn:hover {
+            background: linear-gradient(100deg, var(--red), var(--blue));
+            color: #fff;
+            border-color: transparent;
+            transform: scale(1.05);
+            box-shadow: 0 5px 22px var(--glow-r);
+        }
+
+        /* ===================== PANEL ===================== */
+        .panel {
+            width: 100%;
+            margin-top: 18px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--rad-panel);
+            padding: 26px 22px 22px;
+            animation: fadeUp .35s ease both;
+        }
+
+        .panel-head {
+            font-family: var(--font-head);
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        /* tabs */
+        .tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 20px;
+            background: var(--bg2);
+            padding: 4px;
+            border-radius: 12px;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 7px 0;
+            border-radius: 9px;
+            font-size: .78rem;
+            font-weight: 600;
+            color: var(--text2);
+            transition: all .22s ease;
+        }
+
+        .tab.on {
+            background: linear-gradient(100deg, var(--red), var(--blue));
+            color: #fff;
+        }
+
+        /* form */
+        .fg {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 14px
+        }
+
+        .fl {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            font-size: .72rem;
+            font-weight: 600;
+            color: var(--text3);
+            letter-spacing: .06em;
+            text-transform: uppercase
+        }
+
+        .fl.full {
+            grid-column: 1/-1
+        }
+
+        .fi {
+            padding: 9px 12px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--input-bg);
+            color: var(--text);
+            font-size: .87rem;
+            outline: none;
+            transition: border-color .2s, box-shadow .2s;
+        }
+
+        .fi:focus {
+            border-color: var(--blue);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, .16)
+        }
+
+        .fi::placeholder {
+            color: var(--text3)
+        }
+
+        .btn-g {
+            width: 100%;
+            padding: 11px;
+            border-radius: 12px;
+            background: linear-gradient(100deg, var(--red), var(--blue));
+            color: #fff;
+            font-size: .88rem;
+            font-weight: 600;
+            letter-spacing: .02em;
+            transition: opacity .2s, transform .2s;
+            box-shadow: 0 4px 22px var(--glow-r);
+        }
+
+        .btn-g:hover {
+            opacity: .88;
+            transform: translateY(-1px)
+        }
+
+        .btn-g:active {
+            transform: scale(.98)
+        }
+
+        /* profile preview */
+        .prev-box {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px;
+            margin-bottom: 14px;
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+        }
+
+        .prev-av {
+            width: 54px;
+            height: 54px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            background: var(--bg3);
+            border: 2px solid var(--border2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-head);
+            font-size: 1.2rem;
+            font-weight: 800;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(230, 57, 70, .15), rgba(67, 97, 238, .15));
+        }
+
+        .prev-av img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%
+        }
+
+        .prev-name {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 2px
+        }
+
+        .prev-tag {
+            font-size: .77rem;
+            color: var(--text2)
+        }
+
+        /* manage list */
+        .ml {
+            list-style: none;
+            margin-top: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px
+        }
+
+        .mi {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 13px;
+            border-radius: 12px;
+            background: var(--bg2);
+            border: 1px solid var(--border);
+        }
+
+        .mi-ic {
+            font-size: 1.1rem;
+            flex-shrink: 0
+        }
+
+        .mi-info {
+            flex: 1;
+            min-width: 0
+        }
+
+        .mi-t {
+            font-size: .85rem;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+
+        .mi-u {
+            font-size: .72rem;
+            color: var(--text2);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+
+        .mi-del {
+            width: 28px;
+            height: 28px;
+            flex-shrink: 0;
+            border-radius: 8px;
+            background: rgba(230, 57, 70, .1);
+            color: var(--red);
+            font-size: .85rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background .2s, transform .2s;
+        }
+
+        .mi-del:hover {
+            background: rgba(230, 57, 70, .25);
+            transform: scale(1.1)
+        }
+
+        .empty {
+            text-align: center;
+            padding: 20px 0;
+            font-size: .82rem;
+            color: var(--text3)
+        }
+
+        /* ===================== FOOTER ===================== */
+        .footer {
+            margin-top: 52px;
+            text-align: center;
+            font-size: .74rem;
+            color: var(--text3);
+            letter-spacing: .05em
+        }
+
+        .fg-text {
+            background: linear-gradient(90deg, var(--red), var(--blue-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ===================== ANIMATIONS ===================== */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(18px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        /* ===================== RESPONSIVE ===================== */
+        @media(max-width:420px) {
+            .page {
+                padding: 66px 14px 70px
+            }
+
+            .fg {
+                grid-template-columns: 1fr
+            }
+
+            .fl.full {
+                grid-column: 1
+            }
+
+            .link-card {
+                padding: 13px 14px;
+                gap: 10px
+            }
+
+            .lk-icon {
+                width: 38px;
+                height: 38px;
+                font-size: 1rem
+            }
+
+            .panel {
+                padding: 20px 14px 16px
+            }
+        }
+
+        @media(prefers-reduced-motion:reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: .01ms !important;
+                transition-duration: .01ms !important
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-    <!-- Decorative grain overlay -->
-    <div class="grain"></div>
+    <div class="bg-layer">
+        <div class="blob b1"></div>
+        <div class="blob b2"></div>
+        <div class="blob b3"></div>
+    </div>
 
-    <!-- Floating blobs -->
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
-    <div class="blob blob-3"></div>
+    <!-- ── TOPBAR ── -->
+    <header class="topbar">
+        <span class="tb-brand" id="tbHandle">SidhCodez</span>
+        <div class="tb-actions">
+            <button class="icon-btn" id="themeBtn" title="Toggle theme">🌙</button>
+            <button class="icon-btn" id="editBtn" title="Edit profile & links">✏️</button>
+        </div>
+    </header>
 
-    <main class="container">
+    <main class="page">
 
-        <!-- ── HEADER ── -->
-        <header class="profile" id="profile">
-            <div class="avatar-ring">
-                <div class="avatar" id="avatarEl">
-                    <!-- Initials fallback rendered by JS -->
-                </div>
+        <!-- ── PROFILE ── -->
+        <section class="profile">
+            <div class="av-wrap">
+                <div class="av-ring"></div>
+                <div class="av" id="avEl"><span class="av-ini" id="avIni">SC</span></div>
             </div>
-
-            <h1 class="name" id="profileName"></h1>
-            <p class="tagline" id="profileTagline"></p>
-
-            <div class="social-strip" id="socialStrip"></div>
-        </header>
+            <h1 class="p-name" id="pName">Siddiq</h1>
+            <p class="p-tag" id="pTag">Frontend Developer · Building &amp; Learning</p>
+            <div class="p-div"></div>
+        </section>
 
         <!-- ── LINKS ── -->
-        <section class="links-section" id="linksSection" aria-label="Links"></section>
+        <div class="links" id="linksEl"></div>
 
-        <!-- ── ADD LINK PANEL (hidden by default) ── -->
-        <div class="panel-toggle-wrap">
-            <button class="panel-toggle" id="panelToggleBtn" aria-expanded="false" title="Manage links">
-                <span class="toggle-icon">⚙</span>
-                <span class="toggle-label">Manage Links</span>
-            </button>
+        <div class="sep"></div>
+
+        <!-- ── MANAGE BUTTON ── -->
+        <div class="manage-row">
+            <button class="pill-btn" id="panelBtn">⚙&nbsp; Manage Links</button>
         </div>
 
-        <div class="add-panel" id="addPanel" hidden>
-            <h2 class="panel-title">Link Manager</h2>
+        <!-- ── PANEL ── -->
+        <div class="panel" id="panel" style="display:none">
+            <div class="panel-head">Link Manager</div>
 
-            <div class="form-grid">
-                <label class="form-label">
-                    Title
-                    <input class="form-input" id="newTitle" type="text" placeholder="e.g. GitHub" />
-                </label>
-                <label class="form-label">
-                    URL
-                    <input class="form-input" id="newUrl" type="url" placeholder="https://" />
-                </label>
-                <label class="form-label">
-                    Emoji / Icon
-                    <input class="form-input" id="newIcon" type="text" placeholder="e.g. 🚀" maxlength="4" />
-                </label>
-                <label class="form-label">
-                    Description (optional)
-                    <input class="form-input" id="newDesc" type="text" placeholder="Short description" />
-                </label>
+            <div class="tabs">
+                <button class="tab on" data-t="add">➕ Add Link</button>
+                <button class="tab" data-t="prof">👤 Profile</button>
+                <button class="tab" data-t="mgr">📋 Manage</button>
             </div>
 
-            <button class="btn-add" id="addLinkBtn">+ Add Link</button>
+            <!-- ADD LINK -->
+            <div id="t-add">
+                <div class="fg">
+                    <label class="fl">Title<input class="fi" id="iTitle" placeholder="e.g. GitHub" /></label>
+                    <label class="fl">Emoji<input class="fi" id="iIcon" placeholder="🐙" maxlength="4" /></label>
+                    <label class="fl full">URL<input class="fi" id="iUrl" type="url" placeholder="https://" /></label>
+                    <label class="fl full">Description (optional)<input class="fi" id="iDesc"
+                            placeholder="Short description" /></label>
+                </div>
+                <button class="btn-g" id="addBtn">+ Add Link</button>
+            </div>
 
-            <ul class="manage-list" id="manageList"></ul>
+            <!-- EDIT PROFILE -->
+            <div id="t-prof" style="display:none">
+                <!-- live preview -->
+                <div class="prev-box">
+                    <div class="prev-av" id="prevAv">SC</div>
+                    <div>
+                        <div class="prev-name" id="prevName">Siddiq</div>
+                        <div class="prev-tag" id="prevTag">Frontend Developer · Building &amp; Learning</div>
+                    </div>
+                </div>
+                <div class="fg">
+                    <label class="fl">Display Name<input class="fi" id="iName" placeholder="Your name" /></label>
+                    <label class="fl">Handle<input class="fi" id="iHandle" placeholder="@handle" /></label>
+                    <label class="fl full">Tagline<input class="fi" id="iTagline" placeholder="Short bio" /></label>
+                    <label class="fl full">Photo URL (optional)<input class="fi" id="iPhoto" type="url"
+                            placeholder="https://…" /></label>
+                    <label class="fl full">Initials (fallback)<input class="fi" id="iInit" maxlength="3"
+                            placeholder="SC" /></label>
+                </div>
+                <button class="btn-g" id="saveProf">Save Profile</button>
+            </div>
+
+            <!-- MANAGE -->
+            <div id="t-mgr" style="display:none">
+                <ul class="ml" id="mgList"></ul>
+            </div>
         </div>
 
-        <!-- ── FOOTER ── -->
         <footer class="footer">
-            <span id="footerYear"></span> · Made with <span class="heart">♥</span> by SidhCodez
+            <span id="fyear"></span> · Made with ♥ by <span class="fg-text">SidhCodez</span>
         </footer>
-
     </main>
 
-    <script src="script.js"></script>
+    <script>
+        /* ════════════ CONFIG — edit to customise ════════════ */
+        const DEF_PROFILE = {
+            name: "Siddiq", handle: "SidhCodez",
+            tagline: "Frontend Developer · Building & Learning",
+            photo: "", initials: "SC"
+        };
+        const DEF_LINKS = [
+            { id: "gh", icon: "🐙", title: "GitHub", desc: "Code & open-source projects", url: "https://github.com/yourusername" },
+            { id: "pf", icon: "🌐", title: "Portfolio", desc: "Work, projects & case studies", url: "#" },
+            { id: "li", icon: "💼", title: "LinkedIn", desc: "Professional network", url: "https://linkedin.com/in/yourusername" },
+            { id: "cv", icon: "📄", title: "Resume", desc: "Download my CV", url: "#" },
+            { id: "tw", icon: "🐦", title: "Twitter / X", desc: "Thoughts & tech threads", url: "https://twitter.com/yourusername" },
+            { id: "ml", icon: "✉️", title: "Contact Me", desc: "sidhcodez@email.com", url: "mailto:sidhcodez@email.com" },
+        ];
+
+        /* ════════════ STATE ════════════ */
+        const PK = "sc_prof_v1", LK = "sc_links_v1", TK = "sc_theme_v1";
+        const load = (k, d) => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d } catch { return d } };
+        const save = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)) } catch { } };
+
+        let profile = load(PK, { ...DEF_PROFILE });
+        let links = load(LK, DEF_LINKS.map(l => ({ ...l })));
+        let theme = load(TK, "dark");
+        let panelOpen = false, activeTab = "add";
+        const uid = () => Math.random().toString(36).slice(2, 9);
+
+        /* ════════════ THEME ════════════ */
+        const applyTheme = t => {
+            document.documentElement.setAttribute("data-theme", t);
+            document.getElementById("themeBtn").textContent = t === "dark" ? "🌙" : "☀️";
+            save(TK, t);
+        };
+        document.getElementById("themeBtn").addEventListener("click", () => {
+            theme = theme === "dark" ? "light" : "dark";
+            applyTheme(theme);
+        });
+        applyTheme(theme);
+
+        /* ════════════ RENDER PROFILE ════════════ */
+        const esc = s => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+
+        function renderProfile() {
+            document.getElementById("pName").textContent = profile.name;
+            document.getElementById("pTag").textContent = profile.tagline;
+            document.getElementById("tbHandle").textContent = profile.handle;
+            document.title = `${profile.handle} · Links`;
+            const av = document.getElementById("avEl");
+            av.innerHTML = "";
+            if (profile.photo) {
+                const img = document.createElement("img");
+                img.src = profile.photo; img.alt = profile.name;
+                img.onerror = () => { av.innerHTML = `<span class="av-ini">${profile.initials || "SC"}</span>` };
+                av.appendChild(img);
+            } else {
+                av.innerHTML = `<span class="av-ini">${profile.initials || "SC"}</span>`;
+            }
+        }
+
+        /* ════════════ RENDER LINKS ════════════ */
+        function renderLinks() {
+            const c = document.getElementById("linksEl");
+            c.innerHTML = "";
+            links.forEach((lk, i) => {
+                const a = document.createElement("a");
+                a.className = "link-card";
+                a.href = lk.url;
+                a.target = lk.url.startsWith("mailto:") ? "_self" : "_blank";
+                a.rel = "noopener noreferrer";
+                a.setAttribute("aria-label", lk.title);
+                a.style.animationDelay = `${.22 + i * .07}s`;
+                a.innerHTML = `
+      <div class="lk-icon">${lk.icon || "🔗"}</div>
+      <div class="lk-txt">
+        <div class="lk-title">${esc(lk.title)}</div>
+        ${lk.desc ? `<div class="lk-desc">${esc(lk.desc)}</div>` : ""}
+      </div>
+      <span class="lk-arr">→</span>`;
+                c.appendChild(a);
+                requestAnimationFrame(() => requestAnimationFrame(() => a.classList.add("in")));
+            });
+        }
+
+        /* ════════════ RENDER MANAGE ════════════ */
+        function renderMgr() {
+            const ul = document.getElementById("mgList");
+            ul.innerHTML = "";
+            if (!links.length) { ul.innerHTML = `<li class="empty">No links yet — use the Add tab!</li>`; return }
+            links.forEach(lk => {
+                const li = document.createElement("li");
+                li.className = "mi";
+                li.innerHTML = `
+      <span class="mi-ic">${lk.icon || "🔗"}</span>
+      <div class="mi-info">
+        <div class="mi-t">${esc(lk.title)}</div>
+        <div class="mi-u">${esc(lk.url)}</div>
+      </div>
+      <button class="mi-del" data-id="${lk.id}" aria-label="Delete ${esc(lk.title)}">✕</button>`;
+                ul.appendChild(li);
+            });
+            ul.querySelectorAll(".mi-del").forEach(b => b.addEventListener("click", () => {
+                links = links.filter(l => l.id !== b.dataset.id);
+                save(LK, links); renderLinks(); renderMgr();
+            }));
+        }
+
+        /* ════════════ ADD LINK ════════════ */
+        document.getElementById("addBtn").addEventListener("click", () => {
+            const title = document.getElementById("iTitle").value.trim();
+            const url = document.getElementById("iUrl").value.trim();
+            const icon = document.getElementById("iIcon").value.trim();
+            const desc = document.getElementById("iDesc").value.trim();
+            if (!title) { shake(document.getElementById("iTitle")); return }
+            if (!url) { shake(document.getElementById("iUrl")); return }
+            links.push({ id: uid(), title, url, icon: icon || "🔗", desc });
+            save(LK, links); renderLinks(); renderMgr();
+            ["iTitle", "iUrl", "iIcon", "iDesc"].forEach(id => document.getElementById(id).value = "");
+            document.getElementById("iTitle").focus();
+        });
+
+        /* ════════════ PROFILE FORM ════════════ */
+        function fillProfForm() {
+            document.getElementById("iName").value = profile.name;
+            document.getElementById("iHandle").value = profile.handle;
+            document.getElementById("iTagline").value = profile.tagline;
+            document.getElementById("iPhoto").value = profile.photo || "";
+            document.getElementById("iInit").value = profile.initials || "SC";
+            updatePrev();
+        }
+        function updatePrev() {
+            const n = document.getElementById("iName").value || "Name";
+            const t = document.getElementById("iTagline").value || "Tagline";
+            const p = document.getElementById("iPhoto").value;
+            const ini = (document.getElementById("iInit").value || "SC").toUpperCase();
+            document.getElementById("prevName").textContent = n;
+            document.getElementById("prevTag").textContent = t;
+            const pav = document.getElementById("prevAv");
+            pav.innerHTML = "";
+            if (p) {
+                const img = document.createElement("img"); img.src = p; img.alt = n;
+                img.onerror = () => { pav.textContent = ini };
+                pav.appendChild(img);
+            } else { pav.textContent = ini }
+        }
+        ["iName", "iHandle", "iTagline", "iPhoto", "iInit"].forEach(id =>
+            document.getElementById(id).addEventListener("input", updatePrev));
+
+        document.getElementById("saveProf").addEventListener("click", () => {
+            profile = {
+                name: document.getElementById("iName").value.trim() || profile.name,
+                handle: document.getElementById("iHandle").value.trim() || profile.handle,
+                tagline: document.getElementById("iTagline").value.trim() || profile.tagline,
+                photo: document.getElementById("iPhoto").value.trim(),
+                initials: (document.getElementById("iInit").value.trim() || "SC").toUpperCase()
+            };
+            save(PK, profile); renderProfile();
+            const b = document.getElementById("saveProf");
+            b.textContent = "✓ Saved!"; setTimeout(() => b.textContent = "Save Profile", 1800);
+        });
+
+        /* ════════════ TABS ════════════ */
+        function switchTab(id) {
+            ["add", "prof", "mgr"].forEach(t => {
+                document.getElementById("t-" + t).style.display = t === id ? "block" : "none";
+                document.querySelector(`[data-t="${t}"]`).classList.toggle("on", t === id);
+            });
+            activeTab = id;
+            if (id === "mgr") renderMgr();
+            if (id === "prof") fillProfForm();
+        }
+        document.querySelectorAll(".tab").forEach(b => b.addEventListener("click", () => switchTab(b.dataset.t)));
+
+        /* ════════════ PANEL OPEN/CLOSE ════════════ */
+        function togglePanel() {
+            panelOpen = !panelOpen;
+            document.getElementById("panel").style.display = panelOpen ? "block" : "none";
+            document.getElementById("panelBtn").textContent = panelOpen ? "✕  Close" : "⚙  Manage Links";
+            if (panelOpen) document.getElementById("panel").scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }
+        document.getElementById("panelBtn").addEventListener("click", togglePanel);
+        document.getElementById("editBtn").addEventListener("click", () => {
+            if (!panelOpen) togglePanel();
+            setTimeout(() => switchTab("prof"), 50);
+        });
+
+        /* ════════════ UTILS ════════════ */
+        function shake(el) {
+            el.style.borderColor = "var(--red)";
+            el.style.boxShadow = "0 0 0 3px rgba(230,57,70,.2)";
+            el.focus();
+            setTimeout(() => { el.style.borderColor = ""; el.style.boxShadow = "" }, 1200);
+        }
+
+        /* ════════════ INIT ════════════ */
+        document.getElementById("fyear").textContent = new Date().getFullYear();
+        renderProfile();
+        renderLinks();
+    </script>
 </body>
 
 </html>
