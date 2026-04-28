@@ -98,51 +98,6 @@ https://yourusername.github.io/your-repo-name
 
 ---
 
-## 📁 Project Structure
-
-```
-sidhcodez-links/
-│
-├── index.html       ← Page structure & markup
-├── style.css        ← All styling, themes, animations
-├── script.js        ← All logic, rendering, localStorage
-└── README.md        ← You are here
-```
-
-> **Note:** v1 ships as 3 separate files for readability and easy editing. A single-file version (`index.html` only) also exists and is functionally identical.
-
----
-
-## 🏁 Getting Started
-
-### Option A — Open locally (instant)
-
-1. Download or clone this repo
-2. Open `index.html` in any browser
-3. Done — no install, no server needed
-
-```bash
-git clone https://github.com/yourusername/sidhcodez-links.git
-cd sidhcodez-links
-open index.html        # macOS
-# or just double-click index.html in Windows/Linux
-```
-
-### Option B — Run with a local dev server (recommended for editing)
-
-```bash
-# Using VS Code Live Server extension — just click "Go Live"
-
-# Or using Node.js
-npx serve .
-
-# Or using Python
-python -m http.server 8080
-# then visit http://localhost:8080
-```
-
----
-
 ## 🎨 Customisation
 
 All editable values live at the **top of `script.js`** — you never need to touch the HTML or CSS to personalise the page.
@@ -264,15 +219,6 @@ No JavaScript is needed to paint the theme — switching the `data-theme` attrib
 
 ---
 
-## 💾 localStorage Reference
-
-The app uses three keys in `localStorage`:
-
-| Key | Contents | Reset behaviour |
-|---|---|---|
-| `sc_prof_v1` | Profile object (name, handle, tagline, photo, initials) | Resets to `DEF_PROFILE` |
-| `sc_links_v1` | Array of link objects | Resets to `DEFAULT_LINKS` |
-| `sc_theme_v1` | `"dark"` or `"light"` | Defaults to `"dark"` |
 
 ### Reset everything to defaults
 
@@ -289,37 +235,8 @@ location.reload();
 
 ---
 
-## 🚢 Deployment
 
-### GitHub Pages (free, recommended)
 
-1. Push the repo to GitHub
-2. Go to **Settings → Pages**
-3. Source: **Deploy from a branch** → `main` → `/ (root)`
-4. Click Save — your site is live at:
-   ```
-   https://yourusername.github.io/repo-name
-   ```
-
-### Vercel (free)
-
-```bash
-npm i -g vercel
-vercel
-```
-
-Follow the prompts — Vercel auto-detects the static site and deploys instantly.
-
-### Netlify (free)
-
-1. Drag and drop the project folder onto [netlify.com/drop](https://app.netlify.com/drop)
-2. Done — live URL generated immediately
-
-### Any static host
-
-Upload the three files (`index.html`, `style.css`, `script.js`) to any web server or static host. No server-side configuration required.
-
----
 
 ## 🌍 Browser Support
 
@@ -332,18 +249,6 @@ Upload the three files (`index.html`, `style.css`, `script.js`) to any web serve
 | Samsung Internet | ✅ Full |
 | IE 11 | ❌ Not supported |
 
----
-
-## 🗺️ Roadmap
-
-| Version | Feature | Status |
-|---|---|---|
-| v1.0 | Single-file, localStorage, dark/light theme | ✅ Released |
-| v2.0 | Firebase Firestore real-time cross-device sync | ✅ Released |
-| v2.1 | Drag-to-reorder links | 🔜 Planned |
-| v2.2 | Click analytics (count how many people click each link) | 🔜 Planned |
-| v2.3 | Custom link card colors | 🔜 Planned |
-| v3.0 | Password-protected public page | 💭 Considering |
 
 ---
 
